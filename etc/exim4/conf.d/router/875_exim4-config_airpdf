@@ -1,0 +1,7 @@
+# needs to go before 900_exim4-config_local_user
+
+airpdf:
+    driver      = accept
+    local_parts = belakos+airpdf
+    transport   = airpdf
+    no_more

@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "dependencies": {
+    "googleapis": "43.0.0",
+    "imapflow": "1.0.51",
+    "mailparser-mit": "1.0.0",
+    "nodemailer": "6.4.17"
+  }
+}

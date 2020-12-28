@@ -1,0 +1,4 @@
+airpdf:
+    driver      = pipe
+    user        = belakos
+    command     = /home/belakos/airpdf/smtp.sh
