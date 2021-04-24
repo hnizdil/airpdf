@@ -1,8 +1,14 @@
 Extracts transactions from Air Bank monthly e-mail and appends them to specified Google Sheet.
 
-File `smtp.js` runs raw e-mail from `stdin`.
+File `smtp.js` reads raw e-mail from `stdin`.
 
 File `imap.js` fetches unread e-mails from Gmail IMAP.
+
+# SMTP crontab
+
+```
+0 7 1,2 * * /home/belakos/bin/docker-compose-just-quieter --log-level ERROR --file /home/belakos/airpdf/docker-compose.yml run --rm imap
+```
 
 # Exim4
 
