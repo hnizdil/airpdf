@@ -223,7 +223,7 @@ function reply(mail, body) {
 	})
 
 	transporter.sendMail({
-		to: mail.from,
+		to: process.env.GMAIL_USER,
 		inReplyTo: mail.messageId,
 		references: mail.messageId,
 		subject: `Re: ${mail.subject}`,
