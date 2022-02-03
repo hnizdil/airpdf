@@ -5,7 +5,5 @@ services:
     imap:
         build: .
         command: ["imap.js"]
-        env_file:
-            - run.env
         volumes:
             - ./jwt.keys.json:/home/node/app/jwt.keys.json:ro
