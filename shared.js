@@ -207,31 +207,40 @@ async function appendTransactions(transactions) {
 				reject(err)
 			}
 			else {
-				resolve(JSON.stringify(response.data, null, 2));
+				resolve(response.data)
 			}
 		});
 	})
 }
 
-function reply(mail, body) {
-	let transporter = nodemailer.createTransport({
-		host: 'smtp.gmail.com',
-		auth: {
-			user: process.env.GMAIL_USER,
-			pass: process.env.GMAIL_PASSWORD,
-		}
-	})
+function reply(mail, sheetAppendResult) {
+	const json = JSON.stringify(sheetAppendResult, null, 2)
+	const pre = `<code style="white-space: pre-wrap;">${json}</code>`
+	const range = sheetAppendResult.updates.updatedRange.replace(/^.*!/, '')
+	const link = 'https://docs.google.com/spreadsheets/d/'
+		+ `${process.env.SPREADSHEET_ID}/edit#gid=${process.env.SPREADSHEET_TAB_ID}&range=${range}`
 
-	transporter.sendMail({
-		to: process.env.GMAIL_USER,
-		inReplyTo: mail.messageId,
-		references: mail.messageId,
-		subject: `Re: ${mail.subject}`,
-		html: `<code style="white-space: pre-wrap;">${body}</code>`
-	}, (error) => {
-		if (error) {
-			console.error(error)
-			process.exit(1)
-		}
-	})
+	nodemailer
+		.createTransport({
+			host: 'smtp.gmail.com',
+			auth: {
+				user: process.env.GMAIL_USER,
+				pass: process.env.GMAIL_PASSWORD,
+			}
+		})
+		.sendMail(
+			{
+				to: process.env.GMAIL_USER,
+				inReplyTo: mail.messageId,
+				references: mail.messageId,
+				subject: `Re: ${mail.subject}`,
+				html: `${link}<br />${pre}`
+			},
+			(error) => {
+				if (error) {
+					console.error(error)
+					process.exit(1)
+				}
+			}
+		)
 }
